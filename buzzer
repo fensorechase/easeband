@@ -1,0 +1,51 @@
+//@author Ray Brooks, Chase Fensore
+//This program, given button and buzzer, 
+//sets off buzzer if certain time elapses between
+//button presses. 
+
+//Objective: intended to model IR heart rate sensor
+
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode (7, INPUT_PULLUP);
+  Serial.begin (9600);
+
+
+}
+
+  int LastThing = 1;
+  int change;
+  unsigned long timer;
+  int setTime = 0;
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  int thing = digitalRead (7);
+  Serial.print (thing);
+  delay (100);
+
+  if (LastThing != thing) {
+    change = 1;
+  }
+  if (LastThing == thing) {
+    change = 0;
+  }
+  Serial.print (" - ");
+  Serial.println (change);
+  LastThing = thing;
+
+  if (change == 1) {
+    timer = millis() - setTime;
+    Serial.println (timer);
+    if (timer <= 1500) {
+      Serial.println ("!!!!!!");
+      tone (8, 440);
+
+
+    }
+    setTime = millis();
+  }
+
+}
